@@ -5,6 +5,7 @@ import scala.math.{BigDecimal => ScalaBigDecimal}
 import com.github.nscala_time.time.Imports._
 import scala.collection.immutable.{Map => IMap}
 import scala.collection.mutable.{Map => MMap}
+import scala.collection.mutable.ArrayBuffer
 
 // from salat's test models
 // case class Alice(x: String, y: Option[String] = Some("default y"), z: Basil)
@@ -44,6 +45,8 @@ case class User(username: String)
 case class UserAt(user: User, location: Location)
 
 case class HasASet(s: Set[Int])
+
+case class HasAArray(s: ArrayBuffer[Int])
 
 @Salat
 trait SomeCommonTrait

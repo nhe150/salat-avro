@@ -3,6 +3,7 @@ package com.banno.salat.avro.test
 import com.banno.salat.avro._
 import global._
 import org.apache.avro.Schema
+import scala.collection.mutable.ArrayBuffer
 
 object SetSupportSpec extends SalatAvroSpec {
   import models._
@@ -17,7 +18,7 @@ object SetSupportSpec extends SalatAvroSpec {
     }
 
     "serialize and deserialize" in {
-      val old = HasASet(Set(1,2,3))
+      val old = HasAArray(ArrayBuffer(1,2,3))
       println(serializeToJSON(old))
       val newO = serializeAndDeserialize(old)
       newO must_== old
