@@ -18,13 +18,12 @@ package com.banno.salat.avro
 
 import org.apache.avro.generic.GenericData
 import org.apache.avro.util.Utf8
-import scala.tools.scalap.scalax.rules.scalasig.{SingleType, TypeRefType }
+import scala.tools.scalap.scalax.rules.scalasig.{SingleType, TypeRefType}
 import com.novus.salat._
 import impls._
 import transformers._
 import in._
 import com.novus.salat.Context
-import com.github.nscala_time.time.Imports._
 import org.joda.time.format.ISODateTimeFormat
 
 object Injectors {
@@ -32,6 +31,7 @@ object Injectors {
     pt match {
 
       case IsOption(t@TypeRefType(_, _, _)) => t match {
+
         case TypeRefType(_, symbol, _) if isBigDecimal(symbol.path) =>
           Some(new Transformer(symbol.path, t)(ctx) with NullToNoneInjector with OptionInjector with BigDecimalInjector)
 
@@ -40,6 +40,7 @@ object Injectors {
 
         case TypeRefType(_, symbol, _) if isBigInt(symbol.path) =>
           Some(new Transformer(symbol.path, t)(ctx) with NullToNoneInjector with OptionInjector with BigIntInjector)
+
 
         case TypeRefType(_, symbol, _) if isChar(symbol.path) =>
           Some(new Transformer(symbol.path, t)(ctx) with NullToNoneInjector with OptionInjector with StringToChar)
@@ -50,6 +51,7 @@ object Injectors {
         case TypeRefType(_, symbol, _) if IsTraversable.unapply(t).isDefined => 
           Some(new Transformer(symbol.path, t)(ctx) with NullToNoneInjector with OptionInjector with TraversableInjector {
             val parentType = t
+            val symbolPath = symbol.path
           })
         
         case t @ TypeRefType(prefix @ SingleType(_, esym), sym, _) if sym.path == "scala.Enumeration.Value" => 
@@ -67,6 +69,7 @@ object Injectors {
         case TypeRefType(_, symbol, _) =>
           Some(new Transformer(symbol.path, t)(ctx) with TraversableInjector {
             val parentType = pt
+            val symbolPath = symbol.path
           })
       }
 
@@ -141,7 +144,18 @@ trait TraversableInjector extends Transformer {
       traversableImpl(parentType, traversable)
     case _ => value
   }
+
+  override def transform_!(x: Any)(implicit ctx: Context): Option[Any] =
+    this.parentType match {
+      case TypeRefType(_, symbol, _) if symbol.path == "scala.Array" => {
+        Some(transform(x))
+      }
+      case _ => super.transform_!(x)
+    }
+
+
   def parentType: TypeRefType
+  def symbolPath :String
 }
 
 trait HashMapToMapInjector extends Transformer {

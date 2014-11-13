@@ -32,7 +32,7 @@ protected[avro] object Types {
   val BigInt = Set("scala.math.BigInt", "scala.package.BigInt")
   val Option = "scala.Option"
   val Map = ".Map"
-  val Traversables = Set(".Seq", ".List", ".Vector", ".Set", ".Buffer", ".ArrayBuffer", ".IndexedSeq", ".LinkedList", ".DoubleLinkedList")
+  val Traversables = Set(".Seq", ".List", ".Vector", ".Set", ".Buffer", ".ArrayBuffer", ".IndexedSeq", ".LinkedList", ".DoubleLinkedList", ".Array", ".Queue")
   val BitSets = Set("scala.collection.BitSet", "scala.collection.immutable.BitSet", "scala.collection.mutable.BitSet")
 
   def isOption(sym: Symbol) = sym.path == Option

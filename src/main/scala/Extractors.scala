@@ -117,8 +117,19 @@ trait JodaTimeToString extends Transformer {
 
 trait TraversableExtractor extends Transformer {
   import scala.collection.JavaConverters._
-  override def transform(value: Any)(implicit ctx: Context) =
-    value.asInstanceOf[Traversable[_]].toList.asJava
+
+  /**
+   * Add support for Array[] using toList method.
+   * ToDo: generalize  to any class with trait of toList
+   * @param value
+   * @param ctx
+   * @return
+   */
+  override def transform(value: Any)(implicit ctx: Context) = value match {
+    case h: Array[_] => h.toList.asJava
+    case _ => value.asInstanceOf[Traversable[_]].toList.asJava
+  }
+
 }
 
 trait MapToHashMapExtractor extends Transformer {

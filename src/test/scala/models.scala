@@ -1,11 +1,11 @@
 package com.banno.salat.avro.test.models
 
-import com.novus.salat.annotations._
-import scala.math.{BigDecimal => ScalaBigDecimal}
 import com.github.nscala_time.time.Imports._
+import com.novus.salat.annotations._
+
 import scala.collection.immutable.{Map => IMap}
-import scala.collection.mutable.{Map => MMap}
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, Map => MMap, Queue => MQueue}
+import scala.math.{BigDecimal => ScalaBigDecimal}
 
 // from salat's test models
 // case class Alice(x: String, y: Option[String] = Some("default y"), z: Basil)
@@ -47,6 +47,10 @@ case class UserAt(user: User, location: Location)
 case class HasASet(s: Set[Int])
 
 case class HasAArray(s: ArrayBuffer[Int])
+
+case class HasArray(s : Array[Double])
+
+case class HasAQueue(s : MQueue[Int])
 
 @Salat
 trait SomeCommonTrait

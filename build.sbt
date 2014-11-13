@@ -10,7 +10,7 @@ publishMavenStyle := true
 
 libraryDependencies ++= Seq(
   "org.specs2" %% "specs2" % "2.3.4" % "test",
-  "com.novus" %% "salat" % "1.9.9",
+  "com.novus" %% "salat" % "2.0.0-SNAPSHOT",
   "org.json4s" %% "json4s-native" % "3.2.5",
   "com.github.nscala-time" %% "nscala-time" % "0.6.0",
   "org.apache.avro" % "avro" % "1.7.5"
